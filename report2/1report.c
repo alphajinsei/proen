@@ -5,10 +5,17 @@
 
 struct node {
     int operation;
-    int number;
+    double number;
     struct node *left;
     struct node *right;
 };
+
+double read_number(int *pos,char *s);
+int read_operation(int *pos,char *s);
+void print_operation(int n);
+struct node *create_node(int *pos, char *s);
+void traverse(struct node *p);
+
 
 double read_number(int *pos,char *s){//posが今の位置、ctは文字数-1
     int ct=0;
@@ -71,17 +78,51 @@ int read_operation(int *pos,char *s){
     }
 }
 
+void print_operation(int n){
+    switch (n){
+        case 1:
+            printf("Plus[");
+            break;
+        case 2:
+            printf("Times[");
+            break;
+        case 3:
+            printf("Subtract[");
+            break;
+        case 4:
+            printf("Divide[");
+            break;
+        case 5:
+            printf("Sin[");
+            break;
+        case 6:
+            printf("Cos[");
+            break;
+        case 7:
+            printf("Exp[");
+            break;
+        case 8:
+            printf("Log[");
+            break;
+        case 9:
+            printf("Power[");
+            break;
+        default:
+            break;
+    }
+}
+
 struct node *create_node(int *pos, char *s) {
     struct node *point;
     point=(struct node*)malloc(sizeof(struct node));
     if('0'<=s[*pos]&&s[*pos]<='9'){
         point->number=read_number(pos,s);
-        point->operation=NULL;
+        point->operation=114514;
         point->left=NULL;
         point->right=NULL;
     }else{
         point->operation=read_operation(pos,s);
-        point->number=NULL;
+        point->number=114514;
         point->left=create_node(pos,s);
         if(5<=(point->operation)&&(point->operation)<=8) point->right=NULL;
         else point->right=create_node(pos,s);
@@ -89,12 +130,23 @@ struct node *create_node(int *pos, char *s) {
     return point;
 }
 
+void traverse(struct node *p){
+    if(1<=(p->operation)&&(p->operation)<=9){
+        print_operation(p->operation);//cf:Plus[
+        if(p->left!=NULL) traverse(p->left);
+        printf(",");
+        if(p->right!=NULL) traverse(p->right);
+        printf("]");
+    }else{
+        printf("%f",p->number);
+    }
+}
+
 
 int main() {
     char *str="Plus[Times[Sin[13.4],3],2]";
     int p = 0;
     struct node *root = create_node(&p, str);
-    //traverse(root);
-    //printf(" = ");
-    //printf("%f\n",calculate(root));
+    traverse(root);
+    printf("\n");
 }
