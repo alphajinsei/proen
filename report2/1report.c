@@ -15,6 +15,7 @@ int read_operation(int *pos,char *s);
 void print_operation(int n);
 struct node *create_node(int *pos, char *s);
 void traverse(struct node *p);
+double calculate(struct node *p);
 
 
 double read_number(int *pos,char *s){//posが今の位置、ctは文字数-1
@@ -134,11 +135,47 @@ void traverse(struct node *p){
     if(1<=(p->operation)&&(p->operation)<=9){
         print_operation(p->operation);//cf:Plus[
         if(p->left!=NULL) traverse(p->left);
-        printf(",");
-        if(p->right!=NULL) traverse(p->right);
+        if(p->right!=NULL) {
+            printf(",");
+            traverse(p->right);
+        }
         printf("]");
     }else{
         printf("%f",p->number);
+    }
+}
+
+double calculate(struct node *p){
+    switch (p->operation){
+        case 1:
+            return calculate(p->left)+calculate(p->right);
+            break;
+        case 2:
+            return calculate(p->left)*calculate(p->right);
+            break;
+        case 3:
+            return calculate(p->left)-calculate(p->right);
+            break;
+        case 4:
+            return calculate(p->left)/calculate(p->right);
+            break;
+        case 5:
+            return sin(calculate(p->left));
+            break;
+        case 6:
+            return cos(calculate(p->left));
+            break;
+        case 7:
+            return exp(calculate(p->left));
+            break;
+        case 8:
+            return log(calculate(p->left));
+            break;
+        case 9:
+            return pow(calculate(p->left),calculate(p->right));
+            break;
+        default:
+            return p->number;
     }
 }
 
@@ -148,5 +185,6 @@ int main() {
     int p = 0;
     struct node *root = create_node(&p, str);
     traverse(root);
-    printf("\n");
+    printf(" = ");
+    printf("%f\n",calculate(root));
 }
