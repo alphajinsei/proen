@@ -83,7 +83,7 @@ struct node *create_node(int *pos, char *s) {
         point->operation=read_operation(pos,s);
         point->number=NULL;
         point->left=create_node(pos,s);
-        if(5<(point->operation)&&(point->operation)<=8) point->right=NULL;
+        if(5<=(point->operation)&&(point->operation)<=8) point->right=NULL;
         else point->right=create_node(pos,s);
     }
     return point;
