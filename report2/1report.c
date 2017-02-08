@@ -187,4 +187,5 @@ int main() {
     traverse(root);
     printf(" = ");
     printf("%f\n",calculate(root));
+    printf("%f\n",sin(3.14));
 }
