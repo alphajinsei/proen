@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include<math.h>
 
+
 struct node {
     int operation;
     double number;
@@ -20,7 +21,7 @@ double calculate(struct node *p);
 
 double read_number(int *pos,char *s){//posが今の位置、ctは文字数-1
     int ct=0;
-    while(('0'<=s[(*pos)+ct]&&s[(*pos)+ct]<='9')||s[(*pos)+ct]=='.'){
+    while(('0'<=s[(*pos)+ct]&&s[(*pos)+ct]<='9')||s[(*pos)+ct]=='.'||s[(*pos)+ct]=='x'){
         ct++;
     }
     ct--;
@@ -121,9 +122,14 @@ struct node *create_node(int *pos, char *s) {
         point->operation=114514;
         point->left=NULL;
         point->right=NULL;
+    }else if(s[*pos]=='x'){
+        point->number=read_number(pos,s);
+        point->operation=10;
+        point->left=NULL;
+        point->right=NULL;
     }else{
-        point->operation=read_operation(pos,s);
         point->number=114514;
+        point->operation=read_operation(pos,s);
         point->left=create_node(pos,s);
         if(5<=(point->operation)&&(point->operation)<=8) point->right=NULL;
         else point->right=create_node(pos,s);
@@ -140,6 +146,8 @@ void traverse(struct node *p){
             traverse(p->right);
         }
         printf("]");
+    }else if((p->operation)==10){
+        printf("x");
     }else{
         printf("%f",p->number);
     }
@@ -180,8 +188,9 @@ double calculate(struct node *p){
 }
 
 
+
 int main() {
-    char *str="Plus[Times[Sin[13.4],3],2]";
+    char *str="Plus[Power[x,3],Sin[x]]";
     int p = 0;
     struct node *root = create_node(&p, str);
     traverse(root);
