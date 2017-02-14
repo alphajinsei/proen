@@ -4,6 +4,7 @@
 #include<math.h>
 
 int main(){
+<<<<<<< HEAD
     char *s="Plus[Times[Sin[13.4],3],2]";
     int ct=0;
     int *pos;
@@ -19,6 +20,11 @@ int main(){
         cuts[i]=s[(*pos)+i];
     }
     printf("%f\n",atof(cuts));
+=======
+   
+    printf("%f\n",sin(3.14));
+    printf("%f\n",sin(1));
+>>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
 
 
 
