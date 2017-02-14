@@ -16,9 +16,12 @@ int read_operation(int *pos,char *s);
 void print_operation(int n);
 struct node *create_node(int *pos, char *s);
 void traverse(struct node *p);
-double calculate(struct node *p);
+double calculate_number(struct node *p);
+double calculate_function(struct node *p,double x);
 struct node *differentiate_node(struct node *p);
 struct node *copy_node(struct node *p);
+struct node *substitute(struct node *p,double x);
+void differentiate_function(struct node *root);
 
 double read_number(int *pos,char *s){//posが今の位置、ctは文字数-1
     int ct=0;
@@ -154,34 +157,34 @@ void traverse(struct node *p){
     }
 }
 
-double calculate(struct node *p){
+double calculate_number(struct node *p){
     switch (p->operation){
         case 1:
-            return calculate(p->left)+calculate(p->right);
+            return calculate_number(p->left)+calculate_number(p->right);
             break;
         case 2:
-            return calculate(p->left)*calculate(p->right);
+            return calculate_number(p->left)*calculate_number(p->right);
             break;
         case 3:
-            return calculate(p->left)-calculate(p->right);
+            return calculate_number(p->left)-calculate_number(p->right);
             break;
         case 4:
-            return calculate(p->left)/calculate(p->right);
+            return calculate_number(p->left)/calculate_number(p->right);
             break;
         case 5:
-            return sin(calculate(p->left));
+            return sin(calculate_number(p->left));
             break;
         case 6:
-            return cos(calculate(p->left));
+            return cos(calculate_number(p->left));
             break;
         case 7:
-            return exp(calculate(p->left));
+            return exp(calculate_number(p->left));
             break;
         case 8:
-            return log(calculate(p->left));
+            return log(calculate_number(p->left));
             break;
         case 9:
-            return pow(calculate(p->left),calculate(p->right));
+            return pow(calculate_number(p->left),calculate_number(p->right));
             break;
         default:
             return p->number;
@@ -414,20 +417,61 @@ struct node *copy_node(struct node *p){
     }
 }
 
+double calculate_function(struct node *p,double x)
+{
+    struct node *func=substitute(p,x);
+    return calculate_number(func);
+}
+
+struct node *substitute(struct node *p,double x){
+    struct node *point;
+    point=(struct node*)malloc(sizeof(struct node));
+    if(point->operation!=10){
+        point->number=p->number;
+        point->operation=p->operation;
+    }else{
+        point->number=x;
+        point->operation=114514;
+    }
+    if(p->left==NULL){
+        point->left=NULL;
+    }else{
+        point->left=copy_node(p->left);
+    }
+    if(p->right==NULL){
+        point->right=NULL;
+    }else{
+        point->right=copy_node(p->right);
+    }
+}
 
 
-int main() {
-    //char *str="Plus[Power[x,3],Sin[x]]";
-    //char *str="Plus[Times[Sin[13.4],3],2]";
-    //char *str="Exp[Cos[x]]";
-    char *str="Power[x,x]";
-
-    int p = 0;
-    struct node *root = create_node(&p, str);
+void differentiate_function(struct node *root){
     struct node *df=differentiate_node(root);
     printf("D[");
     traverse(root);
     printf("] = ");
     traverse(df);
-    //printf("%f\n",calculate(root));
+    printf("\n");
+
+}
+
+int main() {
+    //char *str="Plus[Power[x,3],Sin[x]]";
+    //char *str="Plus[Times[Sin[13.4],3],2]";
+    char *str="Exp[Cos[x]]";
+    //char *str="Power[x,x]";
+
+    int p=0;
+    struct node *f=create_node(&p,str);
+    struct node *df=differentiate_node(f);
+    struct node *ddf=differentiate_node(df);
+
+    
+    differentiate_function(f);
+    differentiate_function(df);
+
+    printf("%f\n",calculate_function(f,0));
+    printf("%f\n",calculate_function(df,0));
+    printf("%f\n",calculate_function(ddf,0));
 }
