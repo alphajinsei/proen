@@ -191,6 +191,8 @@ double calculate(struct node *p){
 
 int main() {
     char *str="Plus[Power[x,3],Sin[x]]";
+    //char *str="Plus[Times[Sin[13.4],3],2]";
+
     int p = 0;
     struct node *root = create_node(&p, str);
     traverse(root);
