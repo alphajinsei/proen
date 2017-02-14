@@ -5,7 +5,6 @@
 
 struct node {
     int operation;
-    int number;
     double number;
     struct node *left;
     struct node *right;
@@ -119,16 +118,11 @@ struct node *create_node(int *pos, char *s) {
     point=(struct node*)malloc(sizeof(struct node));
     if('0'<=s[*pos]&&s[*pos]<='9'){
         point->number=read_number(pos,s);
-        point->operation=NULL;
         point->operation=114514;
         point->left=NULL;
         point->right=NULL;
     }else{
         point->operation=read_operation(pos,s);
-        point->number=NULL;
-        point->left=create_node(pos,s);
-        if(5<(point->operation)&&(point->operation)<=8) point->right=NULL;
-
         point->number=114514;
         point->left=create_node(pos,s);
         if(5<=(point->operation)&&(point->operation)<=8) point->right=NULL;
