@@ -5,17 +5,12 @@
 
 struct node {
     int operation;
-<<<<<<< HEAD
     int number;
-=======
     double number;
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
     struct node *left;
     struct node *right;
 };
 
-<<<<<<< HEAD
-=======
 double read_number(int *pos,char *s);
 int read_operation(int *pos,char *s);
 void print_operation(int n);
@@ -24,7 +19,6 @@ void traverse(struct node *p);
 double calculate(struct node *p);
 
 
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
 double read_number(int *pos,char *s){//posが今の位置、ctは文字数-1
     int ct=0;
     while(('0'<=s[(*pos)+ct]&&s[(*pos)+ct]<='9')||s[(*pos)+ct]=='.'){
@@ -86,8 +80,6 @@ int read_operation(int *pos,char *s){
     }
 }
 
-<<<<<<< HEAD
-=======
 void print_operation(int n){
     switch (n){
         case 1:
@@ -122,37 +114,29 @@ void print_operation(int n){
     }
 }
 
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
 struct node *create_node(int *pos, char *s) {
     struct node *point;
     point=(struct node*)malloc(sizeof(struct node));
     if('0'<=s[*pos]&&s[*pos]<='9'){
         point->number=read_number(pos,s);
-<<<<<<< HEAD
         point->operation=NULL;
-=======
         point->operation=114514;
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
         point->left=NULL;
         point->right=NULL;
     }else{
         point->operation=read_operation(pos,s);
-<<<<<<< HEAD
         point->number=NULL;
         point->left=create_node(pos,s);
         if(5<(point->operation)&&(point->operation)<=8) point->right=NULL;
-=======
+
         point->number=114514;
         point->left=create_node(pos,s);
         if(5<=(point->operation)&&(point->operation)<=8) point->right=NULL;
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
         else point->right=create_node(pos,s);
     }
     return point;
 }
 
-<<<<<<< HEAD
-=======
 void traverse(struct node *p){
     if(1<=(p->operation)&&(p->operation)<=9){
         print_operation(p->operation);//cf:Plus[
@@ -201,19 +185,15 @@ double calculate(struct node *p){
     }
 }
 
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
 
 int main() {
     char *str="Plus[Times[Sin[13.4],3],2]";
     int p = 0;
     struct node *root = create_node(&p, str);
-<<<<<<< HEAD
     //traverse(root);
     //printf(" = ");
     //printf("%f\n",calculate(root));
-=======
     traverse(root);
     printf(" = ");
     printf("%f\n",calculate(root));
->>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
 }

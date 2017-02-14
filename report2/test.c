@@ -24,8 +24,14 @@ int main(){
    
     printf("%f\n",sin(3.14));
     printf("%f\n",sin(1));
+<<<<<<< HEAD
 >>>>>>> 51af508f67fd02b91433e8c36e680efcbb4416d7
 
+=======
+    char s[]="3";
+    double x=atof(s);
+    printf("%s %f\n",s,x);
+>>>>>>> 36123205b6dfdcb4adc547d1640f155cb34d0329
 
 
 }
