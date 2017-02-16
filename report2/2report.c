@@ -10,7 +10,6 @@ struct node {
     struct node *left;
     struct node *right;
 };
-
 double read_number(int *pos,char *s);
 int read_operation(int *pos,char *s);
 void print_operation(int n);
@@ -565,20 +564,21 @@ struct node *optimise_node(struct node *p){
 
 int main(int argc,char* argv[]) {
     //char *str="Plus[Times[x,3],Times[x,-1]]";
-    //char *str="Plus[Times[Sin[13.4],3],2]";
+    char *str="Plus[Times[Sin[13.4],3],2]";
     //char *str="Exp[Cos[Log[Sin[x]]]]";
     //char *str="Power[x,x]";
-    char *str="Plus[Exp[Times[-1,x]],Power[x,2]]";
+    //char *str="Plus[Exp[Times[-1,x]],Power[x,2]]";
     //char *str="Plus[Log[Plus[1,Power[x,2]]],Power[Plus[x,1],2]]";
     //char *str="x";
 
     int p=0;
-    struct node *f=create_node(&p,str);
+    struct node *f=create_node(&p,argv[1]);
     struct node *df=optimise_node(optimise_node(differentiate_node(f)));
     struct node *ddf=optimise_node(optimise_node(differentiate_node(df)));
 
     printf("f(x) = ");
     traverse(f);
+    if(iffunc(f)==0) printf(" = %f",calculate_number(f));
     printf("\n");
     
     printf("f'(x) = ");
@@ -591,7 +591,6 @@ int main(int argc,char* argv[]) {
 
     double x0=-3;
     double solution=search(x0,df,ddf);
-    printf("f'(x)=0 -> x = %f\tf'' = %f\n",solution,calculate_function(ddf,solution));
     if(calculate_function(ddf,solution)<0){
         printf("f|max = f(%.5f) = %.5f\n",solution,calculate_function(f,solution));
     }else{
