@@ -342,7 +342,11 @@ struct node *differentiate_node(struct node *p){
 
     }else if(p->operation==9){
         if(p->right->operation==0&&p->right->number==0){
-            struct node *a1=copy_node(p->left);
+            point->operation=0;
+            point->number=0;
+            point->left=NULL;
+            point->right=NULL;
+            /*struct node *a1=copy_node(p->left);
             struct node *point2;
             point2=(struct node*)malloc(sizeof(struct node));
 
@@ -354,7 +358,7 @@ struct node *differentiate_node(struct node *p){
             point2->operation=0;
             point->number=1;
             point->left=0;
-            point->right=0;
+            point->right=0;*/
 
         }else if(p->right->operation==0&&p->right->number!=0){
             struct node *a1=copy_node(p->left);
@@ -545,6 +549,11 @@ struct node *optimise_node(struct node *p){
         point->operation=0;
         point->left=NULL;
         point->right=NULL;
+    }else if(p->operation==2&&p->right->operation==0&&p->right->number==0){
+        point->number=0;
+        point->operation=0;
+        point->left=NULL;
+        point->right=NULL;
     }else{
         point->number=p->number;
         point->operation=p->operation;
@@ -589,11 +598,13 @@ int main(int argc,char* argv[]) {
     traverse(ddf);
     printf("\n");
 
-    double x0=-3;
+    double x0=atof(argv[2]);
     double solution=search(x0,df,ddf);
     if(calculate_function(ddf,solution)<0){
+        printf("x0 = %f\n",x0);
         printf("f|max = f(%.5f) = %.5f\n",solution,calculate_function(f,solution));
     }else{
+        printf("x0 = %f\n",x0);
         printf("f|min = f(%.5f) = %.5f\n",solution,calculate_function(f,solution));
 
     }
